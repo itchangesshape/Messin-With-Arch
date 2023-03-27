@@ -12,12 +12,6 @@ modprobe wl
 
 iw dev
 
-ifconfig wlan0 up
-
 iwlist wlan0 scan
 
-wpa_passphrase ‘WIFINETWORK’ ‘WIFIPASSWORD’ » /etc/wpa_supplicant/wpa_supplicant.conf
-
-wpa_supplicant -Bc /etc/wpa_supplicant/wpa_supplicant.conf -i ‘wlan0’
-
-echo "Try ping now"
+echo "Move on to 'wpa.sh'"
