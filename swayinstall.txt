@@ -1,0 +1,20 @@
+Open in another tab (alt+right-arrow)
+
+Sway installation:
+$ sudo pacman -S sway swaylock swayidle waybar dmenu xorg alacritty ttf-font-awesome ttf-ibm-plex ttf-ibmplex-mono-nerd
+
+Create sway's config file:
+$ mkdir ./config/sway
+$ touch ./config/sway/config
+
+Create waybar's config files:
+$ mkdir ./config/waybar
+$ touch ./config/waybar/config ./config/waybar/style.css
+Check https://github.com/sampaioveiga/Sway for config examples.
+(Change line 255 to correct keyboard layout, and line 27 to correct wallpapers location)
+
+To start Sway:
+Reboot, login, and type:
+$ sway
+
+

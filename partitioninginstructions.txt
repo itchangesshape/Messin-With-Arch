@@ -1,0 +1,56 @@
+Open this in another tab (alt+right-arrow)
+
+Prepare for LUKS Encryption
+
+# modprobe dm-crypt
+# modprobe dm-mod
+
+Prepare disks
+
+# lsblk
+
+# cfdisk /dev/sda - Choose 'gpt' if asked
+
+# Create a new partition - Size '256MB' /  Type is 'EFI System'
+# Create a new partition - Size '512MB' / Press enter
+# Choose 'Free space' / New / Press enter / Leave space / enter
+# Select 'write' / Confirm / Quit
+
+There should now be three partitions:
+
+1. /dev/sda1 - efi
+2. /dev/sda2 - ext4 boot
+3. /dev/sda3 - ext4 root
+
+Encrypt Root Partition:
+
+# cryptsetup luksFormat -v -s 512 -h sha512 /dev/sda3
+# Confirm with all-capital 'YES' - Create password
+
+Open the encrypted partition:
+
+# cryptsetup open /dev/sda3 luks_root
+
+Format file systems:
+
+# mkfs.vfat -n "EFI System Partition" /dev/sda1
+# mkfs.ext4 -L boot /dev/sda2
+# mkfs.ext4 -L root /dev/mapper/luks_root
+
+Mount the partitions:
+
+# mount /dev/mapper/luks_root /mnt
+# mkdir /mnt/boot
+# mount /dev/sda2 /mnt/boot
+# mkdir /mnt/boot/efi
+# mount /dev/sda1 /mnt/boot/efi
+
+Now create the SWAP file:
+
+# cd /mnt
+# dd if=/dev/zero of=swap bs=1M count=1024
+# mkswap swap
+# swapon swap
+# chmod 0600 swap
+
+This step is complete. Move on to 'Base Install'

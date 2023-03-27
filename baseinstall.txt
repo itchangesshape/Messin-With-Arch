@@ -1,0 +1,11 @@
+Open this in another tab (Alt+Right-Arrow)
+
+Open mirrorlist and look for the closest mirror to your location.
+Copy that line and paste it at the top of the list:
+
+# nano /etc/pacman.d/mirrorlist
+
+Use ‘ctrl+w’ and type your country’s name. Select the mirror (line beginning with Server = …) 
+Press ‘ctrl+k’. Go to the top of the list and press ‘ctrl+u’ to paste it.
+
+Step complete. Move on to 'pacstrappin.sh'

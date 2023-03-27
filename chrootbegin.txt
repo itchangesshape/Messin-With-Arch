@@ -1,0 +1,75 @@
+Open this in another tab (Alt+Right-Arrow)
+
+Time Zone Selection:
+
+# ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+
+# hwclock --systohc --utc
+
+Localization:
+
+# nano /etc/local.gen
+Comment out your selection, save.
+
+# locale-gen
+
+# echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+# echo 'KEYMAP=us' > /etc/vconsole.conf
+
+Network:
+
+Create a hostname:
+# echo 'your-host-name' > /etc/hostname
+
+# nano /etc/hosts
+Create the following entries:
+
+$ 127.0.0.1 localhost
+$ ::1 localhost
+$ 127.0.1.1 your-host-name.localdomain your-host.name
+
+Prepare bootloader for LUKS:
+# nano /etc/default/grub
+
+$ GRUB_CMDLINE_LINUX="cryptdevice=/dev/sda3:luks_root"
+
+Initramfs:
+Add 'encrypt' to HOOKS line:
+
+# nano /etc/etc/mkinitcpio.conf
+ 
+Generate initramfs:
+# mkinitcpio -p linux
+
+Set root password:
+# passwd
+
+Install bootloader:
+# grub-install --boot-directory=/boot --efi-directory=/boot/efi /dev/sda2
+# grub-mkconfig -o /boot/grub/grub.cfg
+# grub-mkconfig -o /boot/efi/EFI/arch/grub.cfg
+
+Configure Pacman:
+# nano /etc/pacman.conf
+
+$ Set color, ILoveCandy, parallel downloads, multilib
+
+# pacman-key init
+# pacman-key populate archlinux
+# pacman -Syu
+
+Add user:
+# useradd -m -G audio,video,input,wheel,sys,log,rfkill,lp,adm -s /bin/bash yourusername
+# password yourusername
+
+Give user admin privileges:
+# EDITOR=nano visudo
+
+Uncomment the following line:
+%wheel ALL=(ALL) ALL
+
+Step complete. Reboot and move to "firstlogin":
+# exit
+# umount -R /mnt
+# reboot
+Exit and reboot:

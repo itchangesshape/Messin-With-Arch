@@ -1,0 +1,42 @@
+Open in another tab (alt+right-arrow)
+
+Login as user.
+
+Network Configuration:
+$ sudo systemctl enable --now NetworkManager
+Use 'nmtui' to configure network.
+
+Install yay:
+$ sudo pacman -S --needed git base-devel
+$ mkdir main-directory
+$ cd main-directory
+$ mkdir allthingsgit
+$ cd allthingsgit
+$ git clone https://aur.archlinux.org/yay.git
+$ cd yay
+$ makepkg -si
+First use:
+$ yay -Y --gendb
+$ yay -Syu --devel
+$ yay -Y --devel --combinedupgrade --batchinstall --save
+
+Install TLP:
+$ sudo pacman -S tlp tlp-rw
+$ sudo systemctl enable --now tlp.service
+$ sudo systemctl mask systemd-rfkill.service
+$ sudo systemctl mask systemd-rfkill.socket
+Run 'tlp-stat' and install other recommendations.
+
+Install Apparmor:
+$ sudo pacman -S apparmor
+$ sudo systemctl enable --now apparmor.service
+Add GRUB_CMDLINE_LINUX parameters to Grub for Apparmor (this goes first, before 'cryptdevice':
+# apparmor=1 lsm=lockdown,yama,apparmor
+$ sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+Install UFW:
+$ sudo pacman -S ufw
+$ sudo systemctl enable --now ufw
+$ sudo ufw enable
+
+Step complete. Reboot and move on to "swayinstall".
