@@ -19,12 +19,14 @@ get_user_info() {
     fi
 }
 
-# Call the function to get user info
-get_user_info
-
 echo "Setting wpa_supplicant"
 
 wpa_passphrase ‘$wifissid’ ‘$wifipassword’ » /etc/wpa_supplicant/wpa_supplicant.conf
+
 wpa_supplicant -Bc /etc/wpa_supplicant/wpa_supplicant.conf -i 'wlan0'
 
-echo "Try to ping google.com If successful, move to next step."
+dhclient wlan0
+
+timedatectl set-ntp true
+
+echo "Try to ping google.com - If successful, move to partitoning."
